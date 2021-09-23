@@ -11,7 +11,11 @@ The Pipex proyect aims to program the following shell command:
 ``
 < infile cmd1 | cmd2 | cmd3 ... | cmdn > outfile
 ``
-where infile and outfile are file names and cmd1,cmd2,... cmdn are shell commands with their parameters.
+where 
+- infile and outfile are file names 
+- cmd1,cmd2,... cmdn are shell commands with their parameters
+- < redirection the standard input (fd = 0)
+- \> redirection the standar output (fd = 1)
 
 Some new functions used in this proyect are:
 | Function       | Description | Return |
@@ -27,5 +31,9 @@ Some new functions used in this proyect are:
 | ``pid_t fork(void)`` | Creates a child process by duplicating the calling process, the parent process | Succes: child's pid (parent process), 0 (child process); Failure: -1 (parent process), errno (child process) 
 | ``perror`` |  |
 | ``strerror`` |  |
+
+## :world_map: Concept map
+
+![Customer Journey Map (Timeline)](https://user-images.githubusercontent.com/71781441/134590480-76b9b778-654d-445a-8914-8886138972fe.jpg)
 
 
