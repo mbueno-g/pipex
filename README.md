@@ -11,7 +11,7 @@ The Pipex proyect aims to program the following shell command:
 ``
 < infile cmd1 | cmd2 | cmd3 ... | cmdn > outfile
 ``
-where infile and outfile are file names and cmd1 and cmd2 are shell commands with their parameters.
+where infile and outfile are file names and cmd1,cmd2,... cmdn are shell commands with their parameters.
 
 Some new functions used in this proyect are:
 | Function       | Description | Return |
