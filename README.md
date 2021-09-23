@@ -9,7 +9,7 @@
 ## :books: Introduction
 The Pipex proyect aims to program the following shell command:
 ``
-< infile cmd1 | cmd2 > outfile
+< infile cmd1 | cmd2 | cmd3 ... | cmdn > outfile
 ``
 where infile and outfile are file names and cmd1 and cmd2 are shell commands with their parameters.
 
