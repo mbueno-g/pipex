@@ -6,13 +6,13 @@
 #    By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/22 19:10:56 by mbueno-g          #+#    #+#              #
-#    Updated: 2021/09/22 19:28:16 by mbueno-g         ###   ########.fr        #
+#    Updated: 2021/09/24 19:35:32 by mbueno-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 CC = gcc 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Wextra -Werror
 RM = rm -f
 LIBFT = Libft/libft.a
 
@@ -37,7 +37,7 @@ clean:
 
 fclean: clean
 		$(RM) $(LIBFT)
-		$(rm) $(NAME)
+		$(RM) $(NAME)
 
 re: fclean all
 
