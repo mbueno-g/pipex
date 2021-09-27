@@ -16,7 +16,7 @@ FLAGS = -Wall -Wextra -Werror
 RM = rm -f
 LIBFT = Libft/libft.a
 
-SRC_M = main.c
+SRC_M = main.c utils.c exec_cmd.c
 
 OBJ_M = $(SRC_M:.c=.o)
 

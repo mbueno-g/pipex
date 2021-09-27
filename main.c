@@ -15,76 +15,25 @@
 void	ft_check_file(int argc, char **argv)
 {
 	if (argc < 5)
-	{
-		ft_putstr_fd("Not enough arguments\n", 1);
-		exit(0);
-	}
+		error(NULL, "Not enough arguments\n");
 	else if (access(argv[1], F_OK & R_OK) == -1)
-	{
-		ft_putstr_fd("The file doesn't exist or there's not read permission", 1);
-		exit(0);
-	}
+		error(NULL, "The file doesn't exist or there's not read permission");
 }
 
-/*void	ft_get_path_cmd(t_data *d, int argc, char **argv, char **envp)
-{
-	int	i;
-	char *str;
-	int	fd1[2];
-	int pid;
-	char **new;
-	char lectura[50];
-	int	status;
-	int	len;
-
-
-	i = 2;
-	d->fd_in=0;
-	while (i >= 2 && i <= argc - 2)
-	{
-		pipe(fd1);
-		pid = fork();
-		if (pid < 0) //error
-			ft_putstr_fd("Fork error \n", 1);
-		else if (pid == 0) //hijo1
-		{
-			close(fd1[0]); //cerrar lectura
-			dup2(fd1[1], 1); //STDOUT
-			close(fd1[1]);
-			str = ft_strjoin("whereis ", argv[i]);
-			new = ft_split(str, ' ');
-			//d->data->cmd = ft_split(str, ' ');
-			execve("/usr/bin/whereis", new, envp);
-			//d->data->path = malloc(sizeof(char)* 50);
-		}
-		else //padre
-		{
-			waitpid(pid, &status, 0);
-			read(fd1[0], lectura , 50);
-			printf("path %s", lectura);
-		}
-		i++;
-	}
-}*/
-
-char	**ft_get_path(char **envp)
+char	**ft_get_path(t_data *d, char **envp)
 {
 	char	**path;
 
 	while (!ft_strnstr(*envp, "PATH", ft_strlen(*envp)))
 		envp++;
-	printf("%s\n", *envp);
 	*envp = ft_strchr(*envp, '/'); // me muevo hasta que encuentro el salto de línea
-	/*if (!(*envp))//si falla strchr
-	{
-		ft_putstr_fd("Couldn't find /", 1);
-		exit(0);
-	}*/
+	if (!(*envp))//si falla strchr
+		error(d, "Couldn't find /");
 	path = ft_split(*envp, ':');
 	if (!path)// si falla split
 	{
-		ft_putstr_fd("Split failed\n", 1);
-		exit(0);
+		free(path);
+		error(d, "Split failed\n");
 	}
 	return (path);
 }
@@ -99,65 +48,65 @@ t_list	*ft_lstnew_cmd(char *path, char **cmd_arg)
 		return (NULL);
 	c = malloc(sizeof(t_cmd));
 	if (!c)
+	{
+		free(new);
 		return (NULL);
+	}
 	c->path = path;
 	c->cmd_arg = cmd_arg;
-	new->content = (struct s_cmd *) c;
+	new->content = (struct s_cmd *)c;
 	new->next = NULL;
 	return (new);
 }
 
 
-void	init_t_data(t_data *d, int argc, char **argv, char **envp)
+void	init_t_data(t_data *d, int argc, char **argv, char **path)
 {
 	int		i;
 	int		j;
-	char	**path; //leaksss
 	char	*path_cmd;
 	char	*path_aux;
 	char	**cmd_arg;
-	t_list	*l;
+	//t_cmd	*aux;
 
-	d->fd_in = open(argv[1], O_WRONLY); //cerrar
-	//derechos del archivo cuando lo creamos??
-	d->fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR);
-	if (d->fd_out == -1)
-	{
-		ft_putstr_fd("Error opening outfile\n",1);
-		exit(0);
-	}
 	d->data = NULL;
-	path = ft_get_path(envp);
-	i = 2;
-	while (i >= 2 && i <= argc - 2)
+	i = 1;
+	while (++i <= argc - 2)
 	{
-		j = 0;
+		j = -1;
 		cmd_arg = ft_split(argv[i], ' ');
-		while (path[j])
+		if (!cmd_arg)
+			error(d, "Split failed\n");
+		while (path[++j])
 		{
 			path_aux = ft_strjoin(path[j], "/");
-			path_cmd = ft_strjoin(path_aux, cmd_arg[0]);
-			printf("ss %s\n", path_cmd);
+			path_cmd = ft_strjoin(path_aux, *cmd_arg);
+			if (!path_cmd)
+			{
+				free(cmd_arg);
+				error(d, "Strjoin failed\n");
+			}
 			if (access(path_cmd, F_OK) != -1)
 			{
-				printf("gola\n");
-				ft_lstadd_back(&l, ft_lstnew_cmd(path_cmd, cmd_arg));
+				ft_lstadd_back(&d->data, ft_lstnew_cmd(path_cmd, cmd_arg));
 				break ;
 			}
-			j++;
-			free(path_cmd);
 			free(path_aux);
+			free(path_cmd);
 		}
 		if (!path[j])
-		{
-			ft_putstr_fd("Couldn't access any path\n", 1);
-			free(path);
-			exit(0);
-		}
-		free(cmd_arg);
-		i++;
+			error(d, "Couldn't access any path\n");
+			//free(path);
+		//cmd_arg = NULL;
+		//free(cmd_arg); //si lo libero no me lo guarda
 	}
-
+	/*aux = (struct s_cmd *)d->data->content;
+	while(d->data)
+	{
+					aux = (struct s_cmd *)d->data->content;
+					printf("path 2 %s, cmd %s, %s\n", aux->path, aux->cmd_arg[0], aux->cmd_arg[1]);
+					d->data = d->data->next;
+	}*/
 }
 
 //char **newa = ft_split("whereis ls -la", ' ');
@@ -173,11 +122,17 @@ void	leak(void)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	d;
+	char		**path;
 
 	//atexit(leak);
-	//printf("%s,  %s,  %s,  %s, %s\n", envp[10], envp[11], envp[12], envp[13], envp[14]);
 	ft_check_file(argc, argv);
-	init_t_data(&d, argc, argv, envp);
-	//ft_exec_cmd();
+	d.argc = argc;
+	d.fd_in = open(argv[1], O_WRONLY); //cerrar //derechos del archivo cuando lo creamos??
+	d.fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR);
+	if (d.fd_out == -1)
+		error(&d, "Error opening outfile");
+	path = ft_get_path(&d, envp);
+	init_t_data(&d, argc, argv, path);
+	ft_exec_cmd(&d, envp);
 	return (0);
 }
