@@ -86,7 +86,7 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 			}
 			if (access(path_cmd, F_OK) != -1)
 			{
-				ft_lstadd_front(&d->data, ft_lstnew_cmd(path_cmd, cmd_arg));
+				ft_lstadd_back(&d->data, ft_lstnew_cmd(path_cmd, cmd_arg));
 				break ;
 			}
 			free(path_aux);
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 	//atexit(leak);
 	ft_check_file(argc, argv);
 	d.argc = argc;
-	d.fd_in = open(argv[1], O_WRONLY); //cerrar //derechos del archivo cuando lo creamos??
+	d.fd_in = open(argv[1], O_RDONLY); //cerrar //derechos del archivo cuando lo creamos??
 	d.fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0666); //¿Cuales son estos derechos?
 	if (d.fd_out == -1)
 		error(&d, "Error opening outfile");
