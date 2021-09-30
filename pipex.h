@@ -35,4 +35,5 @@ typedef struct s_data
 }			t_data;
 
 void	error(t_data *d, char *message);
-void	ft_exec_cmd(t_data *d, char **envp);
+void	ft_exec_cmd(t_data *d, t_list *current, char **envp);
+void	pipex(t_data *d, t_list *current, char **envp);

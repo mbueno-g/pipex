@@ -26,9 +26,10 @@ void	free_pipex(void *content)
 
 void	error(t_data *d, char *message)
 {
-	close(d->fd_in);
-	close(d->fd_out);
-	ft_lstclear(&d->data, free_pipex);
-	ft_putstr_fd(message, 1);
+	//close(d->fd_in);
+	//close(d->fd_out);
+	//ft_lstclear(&d->data, free_pipex);
+	//ft_putstr_fd(message, 1);
+	printf("%s", message);
 	exit(0);
 }
