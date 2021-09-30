@@ -27,11 +27,11 @@ void	child_process(int fd[2])
 void	parent_process(t_data *d, int fd[2], t_list *current)
 {
 	close(fd[WRITE_END]);
-	if (d->data == ft_lstlast(d->data)) //primer cmd
+	if (ft_lstlast(d->data) == current) //primer cmd
 		dup2(d->fd_in, STDIN);
 	else
 		dup2(fd[READ_END], STDIN);
-	if (current == d->data)
+	if (d->data == current)
 		dup2(d->fd_out, STDOUT);
 	close(fd[READ_END]);
 }
@@ -43,12 +43,16 @@ void	pipex(t_data *d, t_list *current, char **envp)
 	t_list	*prev_cmd;
 
 	pipe(fd);
-	prev_cmd = current->next;
+	if (current == ft_lstlast(d->data))
+	{
+		prev_cmd = NULL;
+		printf("holaaaa\n");
+	}
+	else
+		prev_cmd = current->next;
 	pid = 1;
 	if (prev_cmd != NULL)
-	{
 		pid = fork();
-	}
 	if (pid < 0)
 		error(d, "Fork error\n");
 	else if (pid == 0) //hijo
