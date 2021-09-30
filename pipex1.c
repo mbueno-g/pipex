@@ -1,12 +1,9 @@
-
-
 #include "pipex.h"
-
 
 void	child_process(t_cmd *cmd, char **envp)
 {
-	int fd[2];
-	pid_t pid;
+	int		fd[2];
+	pid_t	pid;
 
 	pipe(fd);
 	pid = fork();
@@ -15,13 +12,11 @@ void	child_process(t_cmd *cmd, char **envp)
 		printf("Error\n");
 		exit(0);
 	}
-	else if (pid == 0) //hijo
+	else if (pid == 0)
 	{
 		close(fd[READ_END]);
 		dup2(fd[WRITE_END], STDOUT);
 		execve(cmd->path, cmd->cmd_arg, envp);
-		//printf("holaa4\n");
-		//close(fd[WRITE_END]);
 	}
 	else
 	{
@@ -31,11 +26,10 @@ void	child_process(t_cmd *cmd, char **envp)
 	}
 }
 
-
-void pipex(t_data *d, t_list *current, char **envp)
+void	pipex(t_data *d, t_list *current, char **envp)
 {
-	int i;
-	t_cmd *aux;
+	int		i;
+	t_cmd	*aux;
 
 	i = 2;
 	dup2(d->fd_in, STDIN);
@@ -51,5 +45,5 @@ void pipex(t_data *d, t_list *current, char **envp)
 			child_process(aux, envp);
 		current = current->next;
 		i++;
-	} 
+	}
 }

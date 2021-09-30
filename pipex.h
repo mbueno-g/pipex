@@ -37,3 +37,4 @@ typedef struct s_data
 void	error(t_data *d, char *message);
 void	ft_exec_cmd(t_data *d, t_list *current, char **envp);
 void	pipex(t_data *d, t_list *current, char **envp);
+void	ft_free_matrix(char ***matrix);

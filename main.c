@@ -28,13 +28,14 @@ char	**ft_get_path(t_data *d, char **envp)
 		envp++;
 	*envp = ft_strchr(*envp, '/');
 	if (!(*envp))
-		error(d, "Couldn't find /");
-	path = ft_split(*envp, ':');
-	if (!path)
 	{
-		free(path);
-		error(d, "Split failed\n");
+		close(d->fd_in);
+		close(d->fd_out);
+		error(d, "Couldn't find /");
 	}
+	path = ft_split(*envp, ':');
+	//if (!path)
+		//error(d, "Split failed\n");
 	return (path);
 }
 
@@ -66,6 +67,7 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 	char	*path_cmd;
 	char	*path_aux;
 	char	**cmd_arg;
+	int		n;
 
 	d->data = NULL;
 	i = 1;
@@ -93,8 +95,15 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 			free(path_cmd);
 		}
 		if (!path[j])
+		{
+			ft_free_matrix(&cmd_arg);
 			error(d, "Couldn't access any path\n");
+		}
+		//ft_free_matrix(&cmd_arg); //¿por que no es necesario?
 	}
+	//free(path_aux);
+	//free(path_cmd);
+	//ft_free_matrix(&cmd_arg);
 }
 	
 void	leak(void)
@@ -113,9 +122,19 @@ int	main(int argc, char **argv, char **envp)
 	d.fd_in = open(argv[1], O_RDONLY); //cerrar //derechos del archivo cuando lo creamos??
 	d.fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0666); //¿Cuales son estos derechos?
 	if (d.fd_out == -1)
+	{
+		close(d.fd_in);
 		error(&d, "Error opening outfile");
+	}
 	path = ft_get_path(&d, envp);
+	if (!path)
+	{
+		close(d.fd_in);
+		close(d.fd_out);
+		error(&d, "Split failed\n");
+	}
 	init_t_data(&d, argc, argv, path);
+	ft_free_matrix(&path);
 	pipex(&d, d.data , envp);
 	//limpiar
 	return (0);
