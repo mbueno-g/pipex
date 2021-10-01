@@ -6,7 +6,7 @@
 #    By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/08 15:57:21 by mbueno-g          #+#    #+#              #
-#    Updated: 2021/09/21 18:23:06 by mbueno-g         ###   ########.fr        #
+#    Updated: 2021/10/01 15:01:38 by mbueno-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,8 @@ SRCSB = ft_lstnew.c \
  		ft_lstclear.c \
  		ft_lstiter.c \
 		ft_lstmap.c \
-		ft_lstnew_struct.c
+		ft_lstnew_struct.c \
+
 
 OBJS = $(SRCS:.c=.o)
 
