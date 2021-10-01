@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/01 10:41:04 by mbueno-g          #+#    #+#             */
+/*   Updated: 2021/10/01 11:33:19 by mbueno-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	child_process(t_cmd *cmd, char **envp)
@@ -36,14 +48,15 @@ void	pipex(t_data *d, t_list *current, char **envp)
 	while (i <= d->argc - 2)
 	{
 		aux = (t_cmd *)current->content;
-		if (i == d->argc - 2)
+		/*if (i == d->argc - 2)
 		{
 			dup2(d->fd_out, STDOUT);
 			execve(aux->path, aux->cmd_arg, envp);
 		}
-		else
+		else*/
 			child_process(aux, envp);
 		current = current->next;
 		i++;
 	}
+	error(d, NULL);
 }

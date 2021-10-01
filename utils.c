@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/01 11:00:06 by mbueno-g          #+#    #+#             */
+/*   Updated: 2021/10/01 11:33:20 by mbueno-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pipex.h"
 
@@ -26,10 +37,13 @@ void	free_pipex(void *content)
 
 void	error(t_data *d, char *message)
 {
-	//close(d->fd_in);
-	//close(d->fd_out);
-	//ft_lstclear(&d->data, free_pipex);
-	//ft_putstr_fd(message, 1);
-	printf("%s", message);
+	if (message != NULL)
+		ft_putendl_fd(message, 1);
+	if (d)
+	{
+		close(d->fd_in);
+		close(d->fd_out);
+		ft_lstclear(&d->data, free_pipex);
+	}	
 	exit(0);
 }
