@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 11:00:06 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/01 11:33:20 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/01 19:53:09 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_free_matrix(char ***matrix)
 {
-	int pos;
+	int	pos;
 
 	pos = 0;
-	while(matrix[0][pos])
+	while (matrix[0][pos])
 	{
 		free(matrix[0][pos]);
 		pos++;
@@ -41,9 +41,11 @@ void	error(t_data *d, char *message)
 		ft_putendl_fd(message, 1);
 	if (d)
 	{
+		write(1, "jdf", 3);
 		close(d->fd_in);
 		close(d->fd_out);
 		ft_lstclear(&d->data, free_pipex);
-	}	
+	}
+	while (1);	
 	exit(0);
 }

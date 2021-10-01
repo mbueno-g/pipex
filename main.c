@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:08:40 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/01 11:33:17 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/01 19:53:05 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,54 +16,55 @@ void	ft_check_file(int argc, char **argv)
 {
 	if (argc < 5)
 		error(NULL, "Not enough arguments");
-	else if (access(argv[1], F_OK & R_OK) == -1)
+	else if (access(argv[1], F_OK | R_OK) == -1)
 		error(NULL, "The file doesn't exist or there's not read permissions");
 }
 
-char	**ft_get_path(t_data *d, char **envp)
+char	**ft_get_env_path(t_data *d, char **envp)
 {
 	char	**path;
 
-	while (!ft_strnstr(*envp, "PATH", ft_strlen(*envp)))
+	while (*envp && !ft_strnstr(*envp, "PATH", ft_strlen(*envp)))
 		envp++;
+	if (!(*envp))
+		error(d, "Couldn't find PATH");
 	*envp = ft_strchr(*envp, '/');
 	if (!(*envp))
 		error(d, "Couldn't find /");
 	path = ft_split(*envp, ':');
 	if (!path)
-		error(d, "Split failed\n");
+		error(d, "Split failed");
 	return (path);
 }
 
-t_list	*ft_lstnew_cmd(char *path, char **cmd_arg)
+int	get_pathname(t_data *d, t_list **data, char *path, char **cmd_arg)
 {
-	t_list	*new;
-	t_cmd	*c;
+	char	*path_cmd;
+	char	*path_aux;
 
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	c = malloc(sizeof(t_cmd));
-	if (!c)
+	path_aux = ft_strjoin(path, "/");
+	path_cmd = ft_strjoin(path_aux, *cmd_arg);
+	if (!path_cmd)
 	{
-		free(new);
-		return (NULL);
+		free(cmd_arg);
+		error(d, "Strjoin failed");
 	}
-	c->path = path;
-	c->cmd_arg = cmd_arg;
-	new->content = (struct s_cmd *)c;
-	new->next = NULL;
-	return (new);
+	if (access(path_cmd, F_OK) != -1)
+	{
+		ft_lstadd_back(data, ft_lstnew_cmd(path_cmd, cmd_arg));
+		free(path_aux);
+		return (1);
+	}
+	free(path_aux);
+	free(path_cmd);
+	return (0);
 }
 
 void	init_t_data(t_data *d, int argc, char **argv, char **path)
 {
 	int		i;
 	int		j;
-	char	*path_cmd;
-	char	*path_aux;
 	char	**cmd_arg;
-	int		n;
 
 	d->data = NULL;
 	i = 1;
@@ -75,31 +76,18 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 			error(d, "Split failed");
 		while (path[++j])
 		{
-			path_aux = ft_strjoin(path[j], "/");
-			path_cmd = ft_strjoin(path_aux, *cmd_arg);
-			if (!path_cmd)
-			{
-				free(cmd_arg);
-				error(d, "Strjoin failed");
-			}
-			if (access(path_cmd, F_OK) != -1)
-			{
-				ft_lstadd_back(&d->data, ft_lstnew_cmd(path_cmd, cmd_arg));
-				free(path_aux);
+			if (get_pathname(d, &d->data, path[j], cmd_arg))
 				break ;
-			}
-			free(path_aux);
-			free(path_cmd);
 		}
 		if (!path[j])
 		{
 			ft_free_matrix(&cmd_arg);
-			error(d, "Couldn't access any path\n");
+			error(d, "Couldn't access any path");
 		}
 	}
 	ft_free_matrix(&path);
 }
-	
+
 void	leak(void)
 {
 	system("leaks pipex");
@@ -109,17 +97,16 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	d;
 	char	**path;
-	t_cmd	*aux;	
 
 	atexit(leak);
 	ft_check_file(argc, argv);
 	d.argc = argc;
 	d.fd_in = open(argv[1], O_RDONLY);
-	d.fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0666); //¿Cuales son estos derechos?
+	d.fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (d.fd_out == -1)
 		error(&d, "Error opening outfile");
-	path = ft_get_path(&d, envp);
+	path = ft_get_env_path(&d, envp);
 	init_t_data(&d, argc, argv, path);
-	pipex(&d, d.data , envp);
+	pipex(&d, d.data, envp);
 	return (0);
 }

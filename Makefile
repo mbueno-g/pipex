@@ -6,17 +6,17 @@
 #    By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/22 19:10:56 by mbueno-g          #+#    #+#              #
-#    Updated: 2021/10/01 11:33:22 by mbueno-g         ###   ########.fr        #
+#    Updated: 2021/10/01 19:53:07 by mbueno-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 CC = gcc 
-FLAGS = #-Wall -Werror -Wextra  
+FLAGS = -Wall -Werror -Wextra
 RM = rm -f
 LIBFT = Libft/libft.a
 
-SRC_M = main.c utils.c pipex1.c
+SRC_M = main.c utils.c pipex1.c ft_lstnew_cmd.c
 
 OBJ_M = $(SRC_M:.c=.o)
 
