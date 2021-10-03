@@ -12,6 +12,27 @@
 
 #include "pipex.h"
 
+t_list	*ft_lstnew_cmd(char *path, char **cmd_arg)
+{
+	t_list	*new;
+	t_cmd	*c;
+
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	c = malloc(sizeof(t_cmd));
+	if (!c)
+	{
+		free(new);
+		return (NULL);
+	}
+	c->path = path;
+	c->cmd_arg = cmd_arg;
+	new->content = (struct s_cmd *)c;
+	new->next = NULL;
+	return (new);
+}
+
 void	ft_free_matrix(char ***matrix)
 {
 	int	pos;

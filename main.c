@@ -88,17 +88,17 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 	ft_free_matrix(&path);
 }
 
-void	leak(void)
+/*void	leak(void)
 {
 	system("leaks pipex");
-}
+}*/
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	d;
 	char	**path;
 
-	atexit(leak);
+	//atexit(leak);
 	ft_check_file(argc, argv);
 	d.argc = argc;
 	d.fd_in = open(argv[1], O_RDONLY);
