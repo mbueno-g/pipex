@@ -6,9 +6,9 @@
  
 :world_map: [Concept map](#how-it-works)
  
-:footprints: [:footprints: Step by step](#-step-by-step)
+:footprints: [Step by step](#-step-by-step)
 
-## :books: Introduction
+## Introduction
 The aim of Pipex proyect is to program the following shell command:
 ``
 < infile cmd1 | cmd2 | cmd3 ... | cmdn > outfile
@@ -31,7 +31,7 @@ Some helpful functions used in this proyect are:
 | ``int execve(const char *pathname, char *constargv[], char *constenvp[])`` | Executes the program referred to by pathname (binary executable) | Success: nothing ; Failure : -1 |
 | ``pid_t fork(void)`` | Creates a child process by duplicating the calling process, the parent process | Succes: child's pid (parent process), 0 (child process); Failure: -1 (parent process), errno (child process) |
 
-## :collision: New concept
+## New concept
 *¿What is a process?* 
 A process is a primitive unit for allocation of system resources that executes a program. There can be multiple processes executing the same program, but each process has its own copy of the program within its own address space and executes it independently of the other copies. We can tell which process is running by its process ID (PID), a value of type pid_t.
 
@@ -39,7 +39,7 @@ Besides, processes are organized hierarchically. Each process has a parent proce
 These act of creating a new process is called *forking* due to the name of the function use to do it (``fork()``).
 
 
-## :world_map: Concept map
+## Concept map
 Here's a concept map to clarify how to communicate n processes using dup2, pipe and fork:
 ![Customer Journey Map (Timeline)](https://user-images.githubusercontent.com/71781441/135533181-be8aecc4-f330-4276-858e-be3e08fa3d6e.jpg)
 
