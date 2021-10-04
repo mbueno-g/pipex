@@ -48,7 +48,7 @@ This means that if we try to execute a command name ``wc``, the system will look
 
 Check these things out to verify that your code works just fine:
 
-:x: Use ``whereis `` (command used to locate the binary source and manual page files for a command) to confirm thar your pathname is actually correct
+:x: Use ``whereis`` (command used to locate the binary source and manual page files for a command) to confirm thar your pathname is actually correct
 
 :x: Use ``unset PATH`` or/and ``import PATH=...`` with incorrect directory names to corroborate that your program stop when no correct path is found.
 
@@ -64,9 +64,13 @@ Outfile must be open with the next flags
 ### Step 3: Execute command after command
 In case, there're more than two commands we just have to repeat in a loop the idea for two commands as many times as the number of commands. So let's see the idea behind the basic case.
 1. Allocate STDIN_FILENO to the fd that refers to the infile fd: ``dup2(fd_infile, STDIN_FILENO)``
-2. 
+2. Use ``pipe`` and ``fork`` (order matters) to create a child and a parent and given them a way to communicate
+3. CHILD: redirects the writting end of the pipe (fd[WRITE_END]) to the STDOUT_FILENO and execute the first command
+4. PARENT: waits until the child ends and redirects the reading end of the pipe (fd[READ_END]) to the STDIN_FILENO, except there's no left command to execute that the reading end is redirected to the outfile fd.
+Caution should be taken with closing the file descriptors that are no longer used.
 
-### Step 4: Leaks management
-
+### Step 4: File descriptor leaks
+Besides the memory leaks, this proyects introduce the concept of file descriptor leaks. They are the result of leaving an open file descriptor somewhere. 
+To check the out add an endless loop (``while(1);``) at the end of your program and write down ``lsof -c <name_executable>`` in a terminal. This command lists the open files that begin with the name of your executable. You can also use ``lsof -p <process_pid>`` to list them by the process Identificacion number.
 
 
