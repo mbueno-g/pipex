@@ -14,10 +14,11 @@ The Pipex proyect aims to program the following shell command:
 where 
 - infile and outfile are file names 
 - cmd1,cmd2,... cmdn are shell commands with their parameters
-- < redirection the standard input (fd = 0)
-- \> redirection the standar output (fd = 1)
+-  ``< filename `` [input redirection (fd = 0)] : the input will be read from the filename instead of STDIN_FILENO
+-  ``filename > `` [output redirection (fd = 1)] : the output will be written in filename insead of STDOUT_FILENO
+-   ``|`` takes output from one process, and sends it to another as input
 
-Some new functions used in this proyect are:
+Some helpful functions used in this proyect are:
 | Function       | Description | Return |
 | :------------: | :---------: | :-----:|
 | ``int access(const char *pathname, int mode)`` | Checks whether the calling process can access the file pathname | Succes: 0 ; Failure: -1 |
@@ -25,12 +26,47 @@ Some new functions used in this proyect are:
 | ``int pipe(int pipefd[2])`` | Creates a pipe, a unidirectional data channel that can be used for interprocess communication | Success: 0 ; Failure : -1 |
 | ``int dup(int oldfd)`` | Allocates a new file descriptor that refers to the same open file description as the descriptor oldfd | Success: newfd ; Failure: -1 |
 | ``int dup2(int oldfd, int newfd)`` | Performs the same task as dup(), but instead of using the lowest-numbered unused file descriptor, it uses the file descriptor number specified in newfd | Success: newfd ; Failure; -1 |
-| ``int execve(const char *pathname, char *constargv[],char *constenvp[])`` | Executes the program referred to by pathname (binary executable) | Success: nothing ; Failure : -1 |
+| ``int execve(const char *pathname, char *constargv[], char *constenvp[])`` | Executes the program referred to by pathname (binary executable) | Success: nothing ; Failure : -1 |
 | ``pid_t fork(void)`` | Creates a child process by duplicating the calling process, the parent process | Succes: child's pid (parent process), 0 (child process); Failure: -1 (parent process), errno (child process) |
 
 
 ## :world_map: Concept map
 Here's a concept map to clarify how to communicate n processes using dup2, pipe and fork:
 ![Customer Journey Map (Timeline)](https://user-images.githubusercontent.com/71781441/135533181-be8aecc4-f330-4276-858e-be3e08fa3d6e.jpg)
+
+## :footprints: Step by step
+### Step 1: Getting the arguments for execve
+In order to execute a command we first need to get the pathname and the array of arguments and stored both of then as a node of a linked list.
+- [x] Pathname referred to the command we want to execute
+- [x] Command-line arguments
+
+The pathname is stored in the last argument of the main function: the program's environment (*envp*). This variable keeps track of information that is shared by many programs and usually have environment variable names such as HOME, PATH, LOGNAME... The variable ``PATH`` holds a sequence of directory names (path) separated by colons used for searching for programs to be run. A typical value for this environment variable might be a string like:
+```
+PATH=/bin:/etc:/usr/bin:/usr/new/X11:/usr/new:/usr/local/bin
+```
+This means that if we try to execute a command name ``wc``, the system will look for file named ``/bin/wc``, ``/etc/wc`` and so on. The first of these file that exists (checked using  ``access`` with F_OK mode) is the one that is stored and eventually executed.
+
+Check these things out to verify that your code works just fine:
+
+:x: Use ``whereis `` (command used to locate the binary source and manual page files for a command) to confirm thar your pathname is actually correct
+
+:x: Use ``unset PATH`` or/and ``import PATH=...`` with incorrect directory names to corroborate that your program stop when no correct path is found.
+
+### Step 2: Opening infile and outfile
+Infile must be open for reading only (O_RDONLY) so a command can be runned with its information.
+
+Outfile must be open with the next flags
+- [x] O_CREAT: the file is created, if applicable
+- [X] O_WRONLY: open for writting only
+- [X] O_TRUNC: if the file exists and is successfully opened, its length is truncated to 0.
+- [x] 0666: file permissions (-rw-rw-rw-)
+
+### Step 3: Execute command after command
+In case, there're more than two commands we just have to repeat in a loop the idea for two commands as many times as the number of commands. So let's see the idea behind the basic case.
+1. Allocate STDIN_FILENO to the fd that refers to the infile fd: ``dup2(fd_infile, STDIN_FILENO)``
+2. 
+
+### Step 4: Leaks management
+
 
 
