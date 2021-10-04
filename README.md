@@ -1,6 +1,6 @@
 # pipex
 
-:books: [Introduction](#introduction)
+[Introduction](#introduction)
 
 :collision: [New concept](#new-concept)
  
