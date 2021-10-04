@@ -11,7 +11,7 @@ The aim of Pipex proyect is to program the following shell command:
 ``
 < infile cmd1 | cmd2 | cmd3 ... | cmdn > outfile
 ``
-where 
+ (i.e. learn about inter-process communication) where 
 - infile and outfile are file names 
 - cmd1,cmd2,... cmdn are shell commands with their parameters
 -  ``< filename `` [input redirection (fd = 0)] : the input will be read from the filename instead of STDIN_FILENO
