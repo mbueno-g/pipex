@@ -71,6 +71,7 @@ Caution should be taken with closing the file descriptors that are no longer use
 
 ### Step 4: File descriptor leaks
 Besides the memory leaks, this proyects introduce the concept of file descriptor leaks. They are the result of leaving an open file descriptor somewhere. 
-To check the out add an endless loop (``while(1);``) at the end of your program and write down ``lsof -c <name_executable>`` in a terminal. This command lists the open files that begin with the name of your executable. You can also use ``lsof -p <process_pid>`` to list them by the process Identificacion number.
+
+:x: To check the out add an endless loop (``while(1);``) at the end of your program and write down ``lsof -c <name_executable>`` in a terminal. This command lists the open files that begin with the name of your executable. You can also use ``lsof -p <process_pid>`` to list them by the process Identificacion number.
 
 
