@@ -1,12 +1,12 @@
 # pipex
 
-[Introduction](#introduction)
+:books: [Introduction](#introduction)
 
 :collision: [New concept](#new-concept)
  
 :world_map: [Concept map](#how-it-works)
  
-:footprints: [Step by step](#step-by-step)
+[Step by step](#step-by-step)
 
 ## :books: Introduction
 The aim of Pipex proyect is to program the following shell command:
