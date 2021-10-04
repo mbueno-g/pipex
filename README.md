@@ -4,9 +4,9 @@
 
 :collision: [New concept](#new-concept)
  
-:world_map: [Concept map](#how-it-works)
+:world_map: [Concept map](#concept-map)
  
-:footprints: [Step by step](#-step-by-step)
+:footprints: [Step by step](#step-by-step)
 
 ## Introduction
 The aim of Pipex proyect is to program the following shell command:
@@ -43,7 +43,7 @@ These act of creating a new process is called *forking* due to the name of the f
 Here's a concept map to clarify how to communicate n processes using dup2, pipe and fork:
 ![Customer Journey Map (Timeline)](https://user-images.githubusercontent.com/71781441/135533181-be8aecc4-f330-4276-858e-be3e08fa3d6e.jpg)
 
-## :footprints: Step by step
+## Step by step
 ### Step 1: Getting the arguments for execve
 In order to execute a command we first need to get the pathname and the array of arguments and stored both of then as a node of a linked list.
 - [x] Pathname referred to the command we want to execute
