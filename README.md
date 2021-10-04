@@ -61,7 +61,7 @@ Outfile must be open with the next flags
 - [X] O_TRUNC: if the file exists and is successfully opened, its length is truncated to 0.
 - [x] 0666: file permissions (-rw-rw-rw-)
 
-### Step 3: Execute command after command
+### Step 3: Execute several commands
 In case, there're more than two commands we just have to repeat in a loop the idea for two commands as many times as the number of commands. So let's see the idea behind the basic case.
 1. Allocate STDIN_FILENO to the fd that refers to the infile fd: ``dup2(fd_infile, STDIN_FILENO)``
 2. Use ``pipe`` and ``fork`` (order matters) to create a child and a parent and given them a way to communicate
