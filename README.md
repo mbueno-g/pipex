@@ -6,7 +6,7 @@
  
 :world_map: [Concept map](#how-it-works)
  
-[Step by step](#step-by-step)
+:footprints: [Step by step](#step-by-step)
 
 ## :books: Introduction
 The aim of Pipex proyect is to program the following shell command:
