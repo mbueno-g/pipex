@@ -2,7 +2,7 @@
 
 :books: [Introduction](#introduction)
 
-:collision: [New concepts](#new-concepts)
+:collision: [New concept](#new-concept)
  
 :world_map: [Concept map](#how-it-works)
  
@@ -31,7 +31,7 @@ Some helpful functions used in this proyect are:
 | ``int execve(const char *pathname, char *constargv[], char *constenvp[])`` | Executes the program referred to by pathname (binary executable) | Success: nothing ; Failure : -1 |
 | ``pid_t fork(void)`` | Creates a child process by duplicating the calling process, the parent process | Succes: child's pid (parent process), 0 (child process); Failure: -1 (parent process), errno (child process) |
 
-## :collision: New concepts
+## :collision: New concept
 *¿What is a process?* 
 A process is a primitive unit for allocation of system resources that executes a program. There can be multiple processes executing the same program, but each process has its own copy of the program within its own address space and executes it independently of the other copies. We can tell which process is running by its process ID (PID), a value of type pid_t.
 
