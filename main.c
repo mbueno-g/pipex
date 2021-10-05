@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:08:40 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/05 15:46:35 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 18:57:27 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 		}
 		if (!path[j])
 		{
+			ft_free_matrix(&path);
 			ft_free_matrix(&cmd_arg);
 			error(d, "Couldn't access any path");
 		}
