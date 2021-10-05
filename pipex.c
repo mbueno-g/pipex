@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 10:41:04 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/05 18:49:27 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 18:50:51 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	pipex(t_data *d, t_list *current, char **envp)
 	i = 2;
 	if (dup2(d->fd_in, STDIN) == -1)
 		error(d, "Dup2 failed");
-	close(d->fd_in):
+	close(d->fd_in);
 	while (i <= d->argc - 2)
 	{
 		aux = (t_cmd *)current->content;
