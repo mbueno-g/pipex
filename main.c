@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:08:40 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/05 19:06:41 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 19:10:09 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 		j = -1;
 		cmd_arg = ft_split(argv[i], ' ');
 		if (!cmd_arg)
+		{
+			ft_free_matrix(&path);
 			error(d, "Split failed");
+		}
 		while (path[++j])
 		{
 			if (get_pathname(d, &d->data, path[j], cmd_arg))
