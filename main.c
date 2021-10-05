@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:08:40 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/05 18:57:27 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 19:05:36 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 	int		j;
 	char	**cmd_arg;
 
-	d->data = NULL;
 	i = 1;
 	while (++i <= argc - 2)
 	{
@@ -96,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	char	**path;
 
 	ft_check_file(argc, argv);
+	d->data = NULL;
 	d.argc = argc;
 	d.fd_in = open(argv[1], O_RDONLY);
 	d.fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
