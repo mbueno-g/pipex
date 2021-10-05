@@ -6,11 +6,12 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:08:40 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/01 19:53:05 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 15:46:35 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 void	ft_check_file(int argc, char **argv)
 {
@@ -88,17 +89,11 @@ void	init_t_data(t_data *d, int argc, char **argv, char **path)
 	ft_free_matrix(&path);
 }
 
-/*void	leak(void)
-{
-	system("leaks pipex");
-}*/
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	d;
 	char	**path;
 
-	//atexit(leak);
 	ft_check_file(argc, argv);
 	d.argc = argc;
 	d.fd_in = open(argv[1], O_RDONLY);
