@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:08:40 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/05 19:12:17 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 19:14:00 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	get_pathname(t_data *d, t_list **data, char *path, char **cmd_arg)
 	path_cmd = ft_strjoin(path_aux, *cmd_arg);
 	if (!path_cmd)
 	{
+		free(path_aux);
 		ft_free_matrix(&cmd_arg);
 		error(d, "Strjoin failed");
 	}
@@ -56,6 +57,7 @@ int	get_pathname(t_data *d, t_list **data, char *path, char **cmd_arg)
 		free(path_aux);
 		return (1);
 	}
+	ft_free_matrix(&cmd_arg);
 	free(path_aux);
 	free(path_cmd);
 	return (0);
