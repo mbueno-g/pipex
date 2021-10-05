@@ -6,7 +6,7 @@
 /*   By: mbueno-g <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 10:41:04 by mbueno-g          #+#    #+#             */
-/*   Updated: 2021/10/05 15:53:58 by mbueno-g         ###   ########.fr       */
+/*   Updated: 2021/10/05 18:49:27 by mbueno-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	child_process(t_data *d, t_cmd *cmd, char **envp, int i)
 {
 	if (i != d->argc - 2)
 	{
+		close(d->fd_out);
 		if (execve(cmd->path, cmd->cmd_arg, envp) == -1)
 			error(d, "Execve failed");
 	}
@@ -74,6 +75,7 @@ void	pipex(t_data *d, t_list *current, char **envp)
 	i = 2;
 	if (dup2(d->fd_in, STDIN) == -1)
 		error(d, "Dup2 failed");
+	close(d->fd_in):
 	while (i <= d->argc - 2)
 	{
 		aux = (t_cmd *)current->content;
