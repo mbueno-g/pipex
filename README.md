@@ -9,7 +9,7 @@
 :footprints: [Step by step](#step-by-step)
 
 ## Introduction
-The aim of this proyect is to program the following shell command:
+The aim of the Pipex proyect is to program the following shell command:
 ``
 < infile cmd1 | cmd2 | cmd3 ... | cmdn > outfile
 ``
