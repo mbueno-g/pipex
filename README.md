@@ -2,7 +2,7 @@
 
 :books: [Introduction](#introduction)
 
-:collision: [New concept](#new-concept)
+:collision: [New concept](#new-concept) ¿What is a process?
  
 :world_map: [Concept map](#concept-map)
  
